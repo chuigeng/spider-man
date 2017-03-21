@@ -18,16 +18,15 @@ police-station 会按照它的策略，从 web 上选择应该先抓取的 troub
 ![架构图](https://raw.githubusercontent.com/chuigeng/spider-man/master/architecture.png)
 # 接口设计
 ## web
-`GET /web/url/:urlId`  
-`PUT /web/url/:urlId`  
-`POST /web/url`  
-`GET /web/url/search`
-
+    GET /web/url/:urlId
+    PUT /web/url/:urlId
+    POST /web/url
+    GET /web/url/search
 ## spider-man
-`POST /spiderMan/crawl`  
+    POST /spiderMan/crawl  
 
 ## police-station
 
 ## trouble-maker
-`GET /troubleMaker/:troubleMakerId`  
-`POST /troubleMaker`  
+    GET /troubleMaker/:troubleMakerId
+    POST /troubleMaker
