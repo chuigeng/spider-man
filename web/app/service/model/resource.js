@@ -1,5 +1,6 @@
 'use strict';
 
+let _ = require('underscore');
 let mysql = require('node-mysql-cz');
 
 module.exports = app => {
@@ -49,6 +50,7 @@ module.exports = app => {
     }
 
     * update(resource) {
+      resource.updateAt = Date.now();
       return yield mysql.query(
         'UPDATE resource SET ? WHERE resourceId = ?',
         [
