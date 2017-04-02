@@ -30,9 +30,6 @@ exports.create = function* (ctx) {
 };
 
 exports.update = function* (ctx) {
-  // TODO 返回值
-  // 对外抛异常时封装成 JSON 格式
-  // mysql 初始化
   let data = fieldUtil.extract(_.extend(ctx.params, ctx.request.body), [
     { field: 'resourceId', type: 'string', isRequired: true },
     { field: 'tag', type: 'string' },
