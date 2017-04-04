@@ -1,12 +1,14 @@
 'use strict';
 
+var URL = require('url-parse');
+
 /**
- * [router url 规则和 crawler 名称映射]
+ * [routers url 规则和 crawler 名称映射]
  * pattern - url 正则匹配规则
  * crawler - 爬取者
  */
-let router = [
-  { pattern: '/', crawler: 'item'}
+let routers = [
+  { pattern: /^\/\d+$/, crawler: 'category' }
 ];
 
 
@@ -17,4 +19,22 @@ let router = [
 exports.work = function* (url) {
 
   // 根据 URL 分配给不同的爬取者
+  let urlObj = new URL(url);
+  let hostName = urlObj.hostname;
+  let hostFragments = hostName.split('.');
+  let domain = hostFragments[hostFragments.length-2] + '.' + hostFragments[hostFragments.length-1];
+  let path = urlObj.pathname;
+
+  let crawler;
+  for (let router of routers) {
+    if (router.pattern.test(path)) {
+      crawler = require('./' + domain + '/' + path + '/' + router.crawler);
+      break;
+    }
+  }
+
+  if (!crawler) {
+    throw new Error('未定义 url[' + url + ']对应的 crawler');
+  }
+  return yield crawler.work(url);
 };
