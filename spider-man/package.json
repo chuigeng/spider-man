@@ -4,8 +4,10 @@
   "description": "",
   "private": true,
   "dependencies": {
+    "co-request": "^1.0.0",
     "egg": "^1.0.0",
     "field-checker": "0.0.47",
+    "iconv-lite": "^0.4.15",
     "md5": "^2.2.1",
     "mysql": "^2.13.0",
     "node-mysql-cz": "^1.0.1",
