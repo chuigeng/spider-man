@@ -4,6 +4,7 @@
   "description": "",
   "private": true,
   "dependencies": {
+    "cheerio": "^0.22.0",
     "co-request": "^1.0.0",
     "egg": "^1.0.0",
     "field-checker": "0.0.47",
