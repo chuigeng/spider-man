@@ -1,6 +1,9 @@
 'use strict';
 
-var URL = require('url-parse');
+const cheerio = require('cheerio');
+const iconv = require('iconv-lite');
+const request = require('co-request');
+const URL = require('url-parse');
 
 /**
  * [routers url 规则和 crawler 名称映射]
@@ -8,7 +11,8 @@ var URL = require('url-parse');
  * crawler - 爬取者
  */
 let routers = [
-  { pattern: /^\/\d+$/, crawler: 'category' }
+  { pattern: /^\/?$/, crawler: 'index' },
+  { pattern: /^\/\w+\/?$/, crawler: 'category' },
 ];
 
 
@@ -26,15 +30,30 @@ exports.work = function* (url) {
   let path = urlObj.pathname;
 
   let crawler;
+  // TODO 后续可以抽出一份默认的 config，并允许子目录的 config 覆盖父目录的 config
+  let config;
   for (let router of routers) {
     if (router.pattern.test(path)) {
-      crawler = require('./' + domain + '/' + path + '/' + router.crawler);
+      crawler = require('./' + domain + '/' + hostName + '/' + router.crawler);
+      config = require('./' + domain + '/config');
       break;
     }
   }
-
+  
   if (!crawler) {
     throw new Error('未定义 url[' + url + ']对应的 crawler');
   }
-  return yield crawler.work(url);
+
+  // 下载页面
+  let response = yield request({
+    uri: url,
+    encoding: null,
+    gzip: config.response.gzip,
+  });
+  let html = iconv.decode(response.body, config.response.html.charset);
+
+  // 解析页面 DOM 元素，类似 JQuery
+  let $ = cheerio.load(html);
+
+  return yield crawler.work($);
 };
