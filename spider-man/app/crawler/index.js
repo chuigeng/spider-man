@@ -13,6 +13,7 @@ const URL = require('url-parse');
 let routers = [
   { pattern: /^\/?$/, crawler: 'index' },
   { pattern: /^\/\w+\/?$/, crawler: 'category' },
+  { pattern: /^\/\w+\/\d+_?\d*\.html$/, crawler: 'item' },
 ];
 
 
@@ -39,7 +40,7 @@ exports.work = function* (url) {
       break;
     }
   }
-  
+
   if (!crawler) {
     throw new Error('未定义 url[' + url + ']对应的 crawler');
   }
@@ -51,9 +52,9 @@ exports.work = function* (url) {
     gzip: config.response.gzip,
   });
   let html = iconv.decode(response.body, config.response.html.charset);
-
+console.log(html);
   // 解析页面 DOM 元素，类似 JQuery
   let $ = cheerio.load(html);
 
-  return yield crawler.work($);
+  return yield crawler.work(url, $);
 };

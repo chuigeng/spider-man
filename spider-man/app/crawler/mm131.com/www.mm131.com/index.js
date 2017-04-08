@@ -3,7 +3,7 @@
 const URL = require('url-parse');
 
 // 首页
-exports.work = function* ($) {
+exports.work = function* (url, $) {
   // 提取需要的信息
   let categoryUrls = [];
   $('div[class=nav] ul li').each(function(i, elem) {

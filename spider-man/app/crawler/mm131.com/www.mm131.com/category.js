@@ -4,7 +4,7 @@ const _ = require('underscore');
 const URL = require('url-parse');
 
 // 分类页
-exports.work = function* ($) {
+exports.work = function* (url, $) {
   let itemUrls = [];
   $('div[class=main] dl[class="list-left public-box"] dd').each(function(i, elem) {
     let itemUrl = $(this).children('a').attr('href');
@@ -22,10 +22,14 @@ exports.work = function* ($) {
       nextPageUrl = pageUrl;
     }
   });
+  let resourceUrls = _.extend(itemUrls, []);
+  if (nextPageUrl) {
+    resourceUrls = _.extend(resourceUrls, [nextPageUrl]);
+  }
 
   // TODO 统一把相对路径转换为绝对路径
   return {
-    resourceUrls: _.extend(itemUrls, [nextPageUrl]),
+    resourceUrls: resourceUrls,
     troubleMakers: []
   };
 };
