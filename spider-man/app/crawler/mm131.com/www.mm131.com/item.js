@@ -12,6 +12,7 @@ exports.work = function* (url, $) {
   troubleMaker.keywords = $('meta[name=keywords]').attr('content');
   troubleMaker.description = $('meta[name=description]').attr('content');
   troubleMaker.image = $('div[class=content-pic] img').attr('src');
+  troubleMaker.category = $('div[class=place] a').eq(1).text();
 
   // 抹除信息（保护版权人人有责，这里只是示范大家不要这么做啦~
   let clearUpFields = ['title', 'keywords', 'description'];

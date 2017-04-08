@@ -52,9 +52,29 @@ exports.work = function* (url) {
     gzip: config.response.gzip,
   });
   let html = iconv.decode(response.body, config.response.html.charset);
-console.log(html);
+
   // 解析页面 DOM 元素，类似 JQuery
   let $ = cheerio.load(html);
 
-  return yield crawler.work(url, $);
+  let result = yield crawler.work(url, $);
+  // 如果爬取到的资源地址是相对路径，则转换为绝对路径
+  for (let i = 0; i < result.resourceUrls.length; i++) {
+    result.resourceUrls[i] = toAbsoluteUrl(url, result.resourceUrls[i]);
+  }
+  return result;
+};
+
+/**
+ * 将相对路径转为绝对路径
+ * @param  {[type]} url  [当前路径]
+ * @param  {[type]} path [description]
+ * @return {[type]}      [description]
+ */
+const toAbsoluteUrl = function (url, path) {
+  if (path.indexOf('http') === 0) {
+    return path;
+  }
+  let urlFragments = url.split('/');
+  urlFragments[urlFragments.length-1] = path;
+  return urlFragments.join('/');
 };
