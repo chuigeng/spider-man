@@ -58,8 +58,8 @@ exports.work = function* (url) {
 
   let result = yield crawler.work(url, $);
   // 如果爬取到的资源地址是相对路径，则转换为绝对路径
-  for (let i = 0; i < result.resourceUrls.length; i++) {
-    result.resourceUrls[i] = toAbsoluteUrl(url, result.resourceUrls[i]);
+  for (let i = 0; i < result.resources.length; i++) {
+    result.resources[i].url = toAbsoluteUrl(url, result.resources[i].url);
   }
   return result;
 };

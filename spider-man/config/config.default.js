@@ -6,7 +6,6 @@ module.exports = appInfo => {
   // 中间件
   config.middleware = [
     'error',
-    'mysql'
   ];
 
   // should change to your own

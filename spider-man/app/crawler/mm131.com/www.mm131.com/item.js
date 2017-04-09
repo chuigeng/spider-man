@@ -4,6 +4,9 @@ const URL = require('url-parse');
 
 // 详情页
 exports.work = function* (url, $) {
+  let resources = [];
+  let troubleMakers = [];
+
   let troubleMaker = {};
   // 解析资源 ID
   let matches = url.match(/\/(\d+)_?\d*\.html/);
@@ -22,17 +25,20 @@ exports.work = function* (url, $) {
     .replace('www.mm131.com', '').replace('mm131.com', '').replace('mm131', '').trim() : '';
   }
 
-  let nextPageUrl;
+  troubleMakers.push(troubleMaker);
+
   $('div[class=content-page] a').each(function(i, elem) {
     let pageUrl = $(this).attr('href');
     let pageText = $(this).text();
     if (pageText === '下一页') {
-      nextPageUrl = pageUrl;
+      resources.push({
+        url: pageUrl
+      });
     }
   });
 
   return {
-    resourceUrls: nextPageUrl ? [nextPageUrl] : [],
-    troubleMakers: [troubleMaker]
+    resources: resources,
+    troubleMakers: troubleMakers
   };
 };

@@ -12,7 +12,7 @@ co(function* () {
     // www.mm131.com - category.js
     // 'http://www.mm131.com/xinggan/',
     // www.mm131.com - item.js
-    'http://www.mm131.com/xinggan/2853_2.html',
+    // 'http://www.mm131.com/xinggan/2853_2.html',
   ];
   
   for (let url of urls) {
