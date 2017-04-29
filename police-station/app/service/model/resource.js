@@ -17,8 +17,8 @@ module.exports = app => {
         'urlMd5',
         'tag',
         'weight',
-        'crawlStatus',
-        'crawlAt',
+        'lastCrawlResult',
+        'lastCrawlAt',
         'createAt',
         'updateAt',
       ];

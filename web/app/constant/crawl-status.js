@@ -1,0 +1,7 @@
+module.exports = {
+  WAIT: 'WAIT_CRAWL',
+  GOTO: 'GOTO_CRAWL',
+  SUCCESS: 'CRAWL_SUCCESS',
+  FAILED: 'CRAWL_FAILED',
+  MOVED: 'CRAWL_MOVED',
+};
